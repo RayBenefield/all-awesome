@@ -1,0 +1,20 @@
+name: Build Android APK
+on: workflow_dispatch
+jobs:
+  build:
+    name: Build and Upload APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build Android
+        id: buildAndroid
+        uses: game-ci/unity-request-activation-file@v1
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        with:
+          targetPlatform: Android
+      - name: Upload APK
+        id: uploadAPK
+        uses: actions/upload-artifact@v2
+        with:
+          name: Build
+          path: build
