@@ -1,15 +1,20 @@
-name: Acquire activation file
-on: [push]
+name: Build Android APK
+on: workflow_dispatch
 jobs:
-  activation:
-    name: Request manual activation file 🔑
+  build:
+    name: Build and Upload APK
     runs-on: ubuntu-latest
     steps:
-      - name: Request manual activation file
-        id: getManualLicenseFile
+      - name: Build Android
+        id: buildAndroid
         uses: game-ci/unity-request-activation-file@v1
-      - name: Expose as artifact
-        uses: actions/upload-artifact@v1
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
-          name: ${{ steps.getManualLicenseFile.outputs.filePath }}
-          path: ${{ steps.getManualLicenseFile.outputs.filePath }}
+          targetPlatform: Android
+      - name: Upload APK
+        id: uploadAPK
+        uses: actions/upload-artifact@v2
+        with:
+          name: Build
+          path: build
