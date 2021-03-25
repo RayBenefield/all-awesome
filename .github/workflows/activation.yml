@@ -9,7 +9,8 @@ jobs:
         id: getManualLicenseFile
         uses: game-ci/unity-request-activation-file@v2
       - name: Expose as artifact
-        id: actions/upload-artifact@v1
+        id: exposeArtifact
+        uses: actions/upload-artifact@v1
         with:
           name: ${{ steps.getManualLicenseFile.outputs.filePath }}
           path: ${{ steps.getManualLicenseFile.outputs.filePath }}
